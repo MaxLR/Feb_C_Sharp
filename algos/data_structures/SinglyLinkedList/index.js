@@ -190,12 +190,22 @@ class SinglyLinkedList {
   }
 
   /**
- * Removes the last node of this list.
- * - Time: O(?).
- * - Space: O(?).
- * @returns {any} The data from the node that was removed.
- */
-  removeBack() { }
+   * Removes the last node of this list.
+   * - Time: O(?).
+   * - Space: O(?).
+   * @returns {any} The data from the node that was removed.
+   */
+  removeBack() {
+    //if list is empty, return null
+    //if there's only one node (this.head.next is empty)
+      // return removeFront
+    // make a runner, starting at head
+    // while that runner isn't the 2nd to last node (runner.next.next still exists)
+      // runner continues
+    // store data from last node
+    // remove last node
+    // return data from last node (stored in temp variable)
+  }
 
   /**
    * Determines whether or not the given search value exists in this list.
