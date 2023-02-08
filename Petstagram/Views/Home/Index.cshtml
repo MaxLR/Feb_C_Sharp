@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Hello! Add a Pet to our Project!</h2>
+<h3>@ViewBag.SecretMessage</h3>
+
+<form method="POST" action="addPet">
+    <label>Name</label>
+    <input type="text" name="PetName">
+    <label>Pet Type</label>
+    <input type="text" name="PetType">
+    <label>Age</label>
+    <input type="number" name="Age">
+    <label>Hair Color</label>
+    <input type="text" name="HairColor">
+    <input type="submit" value="Add Pet">
+</form>
