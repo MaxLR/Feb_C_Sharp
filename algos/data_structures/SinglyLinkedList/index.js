@@ -293,7 +293,19 @@ class SinglyLinkedList {
    *    node to be removed.
    * @returns {boolean} Indicates if a node was removed or not.
    */
-  removeVal(val) {}
+  removeVal(val) {
+    // edge cases: value doesn't exist in list, removing the head, list is empty
+    // if list is empty, return false
+    // if value is at the head of our list
+        // move the head to the next node
+    // create a runner, starting at head
+    // loop through list, while runner.next exists & that next node's data isn't what i'm looking for
+      // reassign runner to the next node
+    // if runner.next exists, that means we found the value we're looking for & need to remove
+      // reassign runner's .next pointer (runner.next = runner.next.next)
+      // return true
+    // if we get here, that means we didn't find the value, so return false
+  }
 
   // EXTRA
   /**
