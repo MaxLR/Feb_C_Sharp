@@ -19,23 +19,42 @@ public class HomeController : Controller
         return View();
     }
 
-    [HttpGet("/privacy")]
-    public IActionResult Privacy()
+    [HttpGet("/viewPet")]
+    public IActionResult ViewPet()
     {
-        return View();
+        // ViewBag.Name = "Meesha";
+        // ViewBag.Type = "Dog";
+        // ViewBag.Age = 2;
+        // ViewBag.HairColor = "Brown & White";
+
+        Pet calebsPet = new Pet()
+        {
+            Name = "Meesha",
+            Type = "Dog",
+            Age = 2,
+            HairColor = "Brown & White"
+        };
+
+        return View("ViewPet", calebsPet);
     }
 
     [HttpPost("/addPet")]
-    public IActionResult AddPet(string PetName, int Age, string HairColor, string PetType)
+    public IActionResult AddPet(Pet newPet)
     {
-        if(PetType == "dolphin")
+        if(!ModelState.IsValid)
+        {
+            return View("Index");
+        }
+
+        if(newPet.Type == "dolphin")
         {
             ViewBag.SecretMessage = "You picked the secret pet type!";
             return View("Index");
         }
-        Console.WriteLine(PetName + " is a(n)" + Age + " years old pet with " + HairColor + " hair");
+        Console.WriteLine(newPet.Name + " is a(n)" + newPet.Age + " years old pet with " + newPet.HairColor + " hair");
         // return RedirectToAction("Index");
-        return Redirect("/");
+        // return Redirect("/");
+        return View("ViewPet", newPet);
     }
 
     [HttpGet("{**path}")]
@@ -43,6 +62,12 @@ public class HomeController : Controller
     {
         Console.WriteLine("Page not found");
         return RedirectToAction("Index");
+    }
+
+    [HttpGet("/privacy")]
+    public IActionResult Privacy()
+    {
+        return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

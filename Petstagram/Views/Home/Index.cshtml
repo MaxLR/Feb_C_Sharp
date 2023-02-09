@@ -1,18 +1,27 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model Pet
 
 <h2>Hello! Add a Pet to our Project!</h2>
 <h3>@ViewBag.SecretMessage</h3>
 
-<form method="POST" action="addPet">
+<form method="POST" asp-controller="Home" asp-action="AddPet">
     <label>Name</label>
-    <input type="text" name="PetName">
+    <span asp-validation-for="Name"></span>
+    <input asp-for="Name">
+
     <label>Pet Type</label>
-    <input type="text" name="PetType">
+    <span asp-validation-for="Type"></span>
+    <input asp-for="Type">
+
     <label>Age</label>
-    <input type="number" name="Age">
+    <span asp-validation-for="Age"></span>
+    <input asp-for="Age">
+
     <label>Hair Color</label>
-    <input type="text" name="HairColor">
+    <span asp-validation-for="HairColor"></span>
+    <input asp-for="HairColor">
+
     <input type="submit" value="Add Pet">
 </form>
