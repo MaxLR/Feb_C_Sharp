@@ -29,11 +29,43 @@
                 </form>
             </div>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <h3 class="mb-0">You guessed: @ViewBag.UserGuess</h3>
-                <h3 class="mb-0">Computer guess: @ViewBag.ComputerGuess</h3>
+
+        @if (ViewBag.NumGuesses > 0)
+        {
+            <div class="card mb-3
+                @(ViewBag.IsTooLow ? "bg-danger" : "bg-success")
+                @(ViewBag.IsTooHigh ? "bg-danger" : "bg-success")
+            ">
+                <div class="card-body">
+                    @if (ViewBag.IsTooLow)
+                    {
+                        <h1 class="text-center mb-0">TOO LOW!</h1>
+                    }
+
+                    @if (ViewBag.IsTooHigh)
+                    {
+                        <h1 class="text-center mb-0">TOO HIGH!</h1>
+                    }
+
+                    @if (ViewBag.IsCorrect)
+                    {
+                        <h1 class="text-center">YOU GOT IT!</h1>
+                        <a asp-action="ResetGuess" asp-controller="Guess" class="btn btn-outline-light w-100">RESET</a>
+                    }
+                </div>
             </div>
-        </div>
+        }
+
+        @if (ViewBag.NumGuesses > 0)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3 class="mb-0">You guessed: @ViewBag.UserGuess</h3>
+                    <h3 class="mb-0">Computer guess: @ViewBag.ComputerGuess</h3>
+                    <h3 class="mb-0">@ViewBag.NumGuesses Guesses So Far</h3>
+                </div>
+            </div>
+        }
+
     </div>
 </div>
