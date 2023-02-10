@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Guess";
+}
+
+@model Guess
+
+<div class="row">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h1>Take a wild guess, @ViewBag.Name!</h1>
+                <h3>I'm thinking of a number between 1-100.</h3>
+                <h3>What number am I thinking of?</h3>
+                <hr>
+                <form asp-action="ProcessGuess" asp-controller="Guess" method="POST">
+                    <div class="row">
+                        <div class="col">
+                            <input asp-for="Num" class="form-control" />
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary w-100">GUESS</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <span asp-validation-for="Num" class="form-text text-danger"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="mb-0">You guessed: @ViewBag.UserGuess</h3>
+                <h3 class="mb-0">Computer guess: @ViewBag.ComputerGuess</h3>
+            </div>
+        </div>
+    </div>
+</div>
