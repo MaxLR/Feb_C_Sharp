@@ -327,7 +327,19 @@ class SinglyLinkedList {
    *    whose nodes will be added to the back of this list.
    * @returns {SinglyLinkedList} This list with the added nodes.
    */
-  concat(addList) {}
+  concat(addList) {
+    let runner = this.head;
+
+    if (runner === null) {
+      this.head = addList.head;
+    } else {
+      while (runner.next) {
+        runner = runner.next;
+      }
+      runner.next = addList.head;
+    }
+    return this;
+  }
 
   /**
    * Finds the node with the smallest data and moves that node to the front of
@@ -336,7 +348,45 @@ class SinglyLinkedList {
    * - Space: O(?).
    * @returns {SinglyLinkedList} This list.
    */
-  moveMinToFront() {}
+  moveMinToFront() {
+    /* 
+      Alternatively, we could swap the data only in min node and head,
+      but it's better to swap the nodes themselves in case anyone has variables
+      pointing to these nodes already so that we don't unexpectedly change the
+      the data in those nodes potentially causing unwanted side-effects.
+    */
+    if (this.isEmpty()) {
+      return this;
+    }
+
+    let minNode = this.head;
+    let runner = this.head;
+    let prev = this.head;
+
+    while (runner) {
+      if (runner.data < minNode.data) {
+        minNode = runner;
+      }
+
+      runner = runner.next;
+    }
+    // now that we know the min, if it is already the head, nothing needs to be done
+    if (minNode === this.head) {
+      return this;
+    }
+
+    runner = this.head;
+
+    while (runner !== minNode) {
+      prev = runner;
+      runner = runner.next;
+    }
+
+    prev.next = minNode.next; // remove the minNode
+    minNode.next = this.head;
+    this.head = minNode;
+    return this;
+  }
 
   // EXTRA
   /**
@@ -350,7 +400,31 @@ class SinglyLinkedList {
    * @returns {SinglyLinkedList} The split list containing the nodes that are
    *    no longer in this list.
    */
-  splitOnVal(val) {}
+  splitOnVal(val) {
+    const newList = new SinglyLinkedList();
+
+    if (!this.head) {
+      return newList;
+    }
+
+    if (this.head.data === val) {
+      newList.head = this.head;
+      this.head = null;
+      return newList;
+    }
+
+    let runner = this.head;
+
+    while (runner.next) {
+      if (runner.next.data === val) {
+        newList.head = runner.next;
+        runner.next = null;
+        return newList;
+      }
+      runner = runner.next;
+    }
+    return newList;
+  }
 }
 
 /******************************************************************* 
