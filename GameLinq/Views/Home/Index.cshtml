@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model List<VideoGame>
+
+<h2>Selected Game: @ViewBag.selectedGame.Title</h2>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Title:</th>
+            <th>Studio:</th>
+            <th>Rating:</th>
+            <th>Price:</th>
+            <th>Platform:</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (VideoGame game in Model)
+        {
+            <tr class="@(game.Title.Equals(ViewBag.selectedGame.Title) ? "bg-primary text-light" : "")">
+                <td>@game.Title</td>
+                <td>@game.Studio</td>
+                <td>@game.Rating</td>
+                <td>@game.Price</td>
+                <td>@game.Platform</td>
+            </tr>
+        }
+    </tbody>
+</table>
