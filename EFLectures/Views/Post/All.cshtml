@@ -14,6 +14,24 @@
       <small class="text-muted"> Submitted on: @post.CreatedAt </small>
     </div>
 
+    <a
+      asp-controller="Post"
+      asp-action="Details"
+      asp-route-postId="@post.PostId"
+      class="btn btn-outline-info"
+    >
+      View Details
+    </a>
+
+    <a
+      asp-controller="Post"
+      asp-action="Edit"
+      asp-route-postId="@post.PostId"
+      class="btn btn-outline-info"
+    >
+      Edit Post
+    </a>
+
     <img src="@post.ImgUrl" alt="related to post." class="card-img-bottom" />
   </div>
 }

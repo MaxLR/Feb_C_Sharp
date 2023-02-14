@@ -22,7 +22,33 @@ public class PostController : Controller
         List<Post> allPosts = db.Posts.ToList();
 
         return View("All", allPosts);
-    }  
+    }
+
+    [HttpGet("/posts/{postId}")]
+    public IActionResult Details(int postId)
+    {        
+        Post? post = db.Posts.FirstOrDefault(post => post.PostId == postId);
+
+        if (post == null)
+        {
+            return RedirectToAction("All");
+        }
+
+        return View("Details", post);
+    }
+
+    [HttpGet("/posts/{postId}/edit")]
+    public IActionResult Edit(int postId)
+    {        
+        Post? post = db.Posts.FirstOrDefault(post => post.PostId == postId);
+
+        if (post == null)
+        {
+            return RedirectToAction("All");
+        }
+
+        return View("Edit", post);
+    }
 
     [HttpGet("/posts/new")]
     public IActionResult NewPost()
@@ -59,5 +85,50 @@ public class PostController : Controller
         INSERT INTO posts (Topic, Body, ImgUrl, CreatedAt, UpdatedAt)
         VALUES (newPost.Topic, newPost.Body, newPost.ImgUrl, NOW(), NOW());
         */
+    }
+
+    [HttpPost("/posts/{postId}/update")]
+    public IActionResult Update(Post editedPost, int postId)
+    {
+        if (!ModelState.IsValid)
+        {
+            // editedPost.PostId = postId;
+            // return View("Edit", editedPost);
+
+            // this reuses the Edit route's functionality, but doesn't create a new reqeust/response cycle, so error messages persist
+            // if you use this syntax, you NEED to make sure that the name of the .cshtml file is not defaulted in the "return View()" line of code
+            return Edit(postId);
+        }
+
+        Post? dbPost = db.Posts.FirstOrDefault(post => post.PostId == postId);
+
+        if (dbPost == null)
+        {
+            return RedirectToAction("All");
+        }
+
+        dbPost.Topic = editedPost.Topic;
+        dbPost.Body = editedPost.Body;
+        dbPost.ImgUrl = editedPost.ImgUrl;
+        dbPost.UpdatedAt = DateTime.Now;
+
+        db.Posts.Update(dbPost);
+        db.SaveChanges();
+
+        return RedirectToAction("Details", new { postId = postId });
+    }
+
+    [HttpPost("/posts/{postId}/delete")]
+    public IActionResult Delete(int postId)
+    {
+        Post? post = db.Posts.FirstOrDefault(post => post.PostId == postId);
+
+        if(post != null)
+        {
+            db.Posts.Remove(post);
+            db.SaveChanges();
+        }
+
+        return RedirectToAction("All");
     }
 }

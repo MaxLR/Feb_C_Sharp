@@ -1,0 +1,12 @@
+@model Post
+
+<h1>Post Number: @Model.PostId</h1>
+
+<form
+    asp-controller="Post"
+    asp-action="Delete"
+    asp-route-postId="@Model.PostId"
+    method="POST"
+>
+  <button class="btn btn-outline-danger">Delete</button>
+</form>
