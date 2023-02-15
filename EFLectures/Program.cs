@@ -9,6 +9,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();  
+builder.Services.AddSession();  
 
 // All your builder.services go here
 // And we will add one more service
@@ -26,6 +28,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 app.UseStaticFiles();
+
+app.UseSession(); 
 
 app.UseRouting();
 
