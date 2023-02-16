@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFLectures.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20230215173816_UserMigration")]
-    partial class UserMigration
+    [Migration("20230216172721_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,7 +45,12 @@ namespace EFLectures.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("PostId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -81,6 +86,22 @@ namespace EFLectures.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("EFLectures.Models.Post", b =>
+                {
+                    b.HasOne("User", "Author")
+                        .WithMany("AuthoredPosts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("User", b =>
+                {
+                    b.Navigation("AuthoredPosts");
                 });
 #pragma warning restore 612, 618
         }

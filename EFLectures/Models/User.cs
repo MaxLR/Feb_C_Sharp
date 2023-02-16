@@ -34,6 +34,8 @@ public class User
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+    public List<Post> AuthoredPosts { get; set; } = new List<Post>(); // 1 User : N posts relationship
 }
 
 public class UniqueEmailAttribute : ValidationAttribute

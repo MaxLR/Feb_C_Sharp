@@ -2,11 +2,13 @@
 
 <h1>All Posts</h1>
 
+<a asp-controller="Post" asp-action="NewPost">Create a Post</a>
+
 @foreach (Post post in Model)
 {
     <div class="card shadow rounded mx-auto w-75 mb-3">
     <h4 class="card-title text-center bg-dark text-light py-2 rounded-top">
-      @post.Topic
+      @post.Topic - @post.Author.FirstName @post.Author.LastName
     </h4>
 
     <div class="card-body">

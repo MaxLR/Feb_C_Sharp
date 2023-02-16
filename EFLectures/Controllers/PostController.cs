@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using EFLectures.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFLectures.Controllers;
 
@@ -21,11 +22,16 @@ public class PostController : Controller
     [HttpGet("posts")]
     public IActionResult All()
     {
-        List<Post> allPosts = db.Posts.ToList();
+        List<Post> allPosts = db.Posts
+        // SELECT * FROM posts AS p
+        // JOIN users AS u ON p.UserId = u.UserId
+        .Include(post => post.Author)
+        .ToList();
 
         return View("All", allPosts);
     }
 
+    [SessionCheck]
     [HttpGet("/posts/{postId}")]
     public IActionResult Details(int postId)
     {        
@@ -39,12 +45,13 @@ public class PostController : Controller
         return View("Details", post);
     }
 
+    [SessionCheck]
     [HttpGet("/posts/{postId}/edit")]
     public IActionResult Edit(int postId)
     {        
         Post? post = db.Posts.FirstOrDefault(post => post.PostId == postId);
 
-        if (post == null)
+        if (post == null || post.UserId != HttpContext.Session.GetInt32("UUID"))
         {
             return RedirectToAction("All");
         }
@@ -52,12 +59,14 @@ public class PostController : Controller
         return View("Edit", post);
     }
 
+    [SessionCheck]
     [HttpGet("/posts/new")]
     public IActionResult NewPost()
     {
         return View("New");
     }
 
+    [SessionCheck]
     [HttpPost("/posts/create")]
     public IActionResult CreatePost(Post newPost)
     {
@@ -65,6 +74,10 @@ public class PostController : Controller
         {
             return View("New");
         }
+
+        // attaching userID to new post based on currently logged in user.
+        // we know that it's not null because we have the sessioncheck validation on our route
+        newPost.UserId = (int)HttpContext.Session.GetInt32("UUID");
 
         // modelstate IS valid
         db.Posts.Add(newPost);
@@ -89,6 +102,7 @@ public class PostController : Controller
         */
     }
 
+    [SessionCheck]
     [HttpPost("/posts/{postId}/update")]
     public IActionResult Update(Post editedPost, int postId)
     {
@@ -104,7 +118,7 @@ public class PostController : Controller
 
         Post? dbPost = db.Posts.FirstOrDefault(post => post.PostId == postId);
 
-        if (dbPost == null)
+        if (dbPost == null || dbPost.UserId != HttpContext.Session.GetInt32("UUID"))
         {
             return RedirectToAction("All");
         }
@@ -120,12 +134,13 @@ public class PostController : Controller
         return RedirectToAction("Details", new { postId = postId });
     }
 
+    [SessionCheck]
     [HttpPost("/posts/{postId}/delete")]
     public IActionResult Delete(int postId)
     {
         Post? post = db.Posts.FirstOrDefault(post => post.PostId == postId);
 
-        if(post != null)
+        if(post != null && post.UserId == HttpContext.Session.GetInt32("UUID"))
         {
             db.Posts.Remove(post);
             db.SaveChanges();
