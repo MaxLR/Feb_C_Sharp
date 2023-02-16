@@ -264,14 +264,14 @@ class BinarySearchTree {
     }
 
     /**
- * DFS Preorder: (CurrNode, Left, Right)
- * Converts this BST into an array following Depth First Search preorder.
- * Example on the fullTree var:
- * [25, 15, 10, 4, 12, 22, 18, 24, 50, 35, 31, 44, 70, 66, 90]
- * @param {Node} node The current node during the traversal of this tree.
- * @param {Array<number>} vals The data that has been visited so far.
- * @returns {Array<number>} The vals in DFS Preorder once all nodes visited.
- */
+     * DFS Preorder: (CurrNode, Left, Right)
+     * Converts this BST into an array following Depth First Search preorder.
+     * Example on the fullTree var:
+     * [25, 15, 10, 4, 12, 22, 18, 24, 50, 35, 31, 44, 70, 66, 90]
+     * @param {Node} node The current node during the traversal of this tree.
+     * @param {Array<number>} vals The data that has been visited so far.
+     * @returns {Array<number>} The vals in DFS Preorder once all nodes visited.
+     */
     toArrPreorder(node = this.root, vals = []) { }
 
     /**
