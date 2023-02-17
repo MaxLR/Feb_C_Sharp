@@ -16,6 +16,12 @@
       <small class="text-muted"> Submitted on: @post.CreatedAt </small>
     </div>
 
+    <h3>Liked by:</h3>
+    @foreach (UserPostLike like in post.PostLikes)
+    {
+      <p>@like.User.FirstName @like.User.LastName</p>
+    }
+
     <a
       asp-controller="Post"
       asp-action="Details"
@@ -33,6 +39,26 @@
     >
       Edit Post
     </a>
+
+    @{ bool alreadyLiked = post.PostLikes.Any(like => like.UserId == Context.Session.GetInt32("UUID")); }
+
+    <form
+      asp-controller="Post"
+      asp-action="Like"
+      asp-route-postId="@post.PostId"
+      method="POST"
+    >
+      <button>
+        @if (alreadyLiked)
+        {
+          <span>Unlike</span>
+        }
+        else
+        {
+          <span>Like</span>
+        }
+      </button>
+    </form>
 
     <img src="@post.ImgUrl" alt="related to post." class="card-img-bottom" />
   </div>

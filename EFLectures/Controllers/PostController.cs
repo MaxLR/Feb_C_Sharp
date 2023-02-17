@@ -26,6 +26,8 @@ public class PostController : Controller
         // SELECT * FROM posts AS p
         // JOIN users AS u ON p.UserId = u.UserId
         .Include(post => post.Author)
+        .Include(post => post.PostLikes)
+        .ThenInclude(like => like.User)
         .ToList();
 
         return View("All", allPosts);
@@ -148,6 +150,32 @@ public class PostController : Controller
 
         return RedirectToAction("All");
     }
+
+    [SessionCheck]
+    [HttpPost("/posts/{postId}/like")]
+    public IActionResult Like(int postId)
+    {
+        UserPostLike? existingLike = db.UserPostLikes
+            .FirstOrDefault(like => like.UserId == (int)HttpContext.Session.GetInt32("UUID") && like.PostId == postId);
+
+        if (existingLike != null)
+        {
+            db.UserPostLikes.Remove(existingLike);
+        } else
+        {
+            UserPostLike newLike = new UserPostLike()
+            {
+                PostId = postId,
+                UserId = (int)HttpContext.Session.GetInt32("UUID")
+            };
+
+            db.UserPostLikes.Add(newLike);
+        }
+        
+        db.SaveChanges();
+
+        return RedirectToAction("All");
+    }
 }
 
 // Name this anything you want with the word "Attribute" at the end
@@ -166,4 +194,3 @@ public class SessionCheckAttribute : ActionFilterAttribute
         }
     }
 }
-

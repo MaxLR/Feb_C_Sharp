@@ -36,4 +36,6 @@ public class Post
     **********************************************************************/
     public int UserId { get; set; } //this FK NEEDS to match PK property name
     public User? Author { get; set; } // 1 user related to each Post
+    public List<UserPostLike> PostLikes { get; set; } = new List<UserPostLike>();
+
 }

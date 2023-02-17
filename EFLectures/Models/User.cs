@@ -4,7 +4,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EFLectures.Models;
+namespace EFLectures.Models;
 
 public class User
 {
@@ -36,6 +36,7 @@ public class User
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public List<Post> AuthoredPosts { get; set; } = new List<Post>(); // 1 User : N posts relationship
+    public List<UserPostLike> UserLikes { get; set; } = new List<UserPostLike>();
 }
 
 public class UniqueEmailAttribute : ValidationAttribute

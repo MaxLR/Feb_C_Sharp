@@ -53,7 +53,7 @@ namespace EFLectures.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("User", b =>
+            modelBuilder.Entity("EFLectures.Models.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -86,9 +86,36 @@ namespace EFLectures.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("EFLectures.Models.UserPostLike", b =>
+                {
+                    b.Property<int>("UserPostLikeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserPostLikeId");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserPostLikes");
+                });
+
             modelBuilder.Entity("EFLectures.Models.Post", b =>
                 {
-                    b.HasOne("User", "Author")
+                    b.HasOne("EFLectures.Models.User", "Author")
                         .WithMany("AuthoredPosts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -97,9 +124,35 @@ namespace EFLectures.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("User", b =>
+            modelBuilder.Entity("EFLectures.Models.UserPostLike", b =>
+                {
+                    b.HasOne("EFLectures.Models.Post", "Post")
+                        .WithMany("PostLikes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EFLectures.Models.User", "User")
+                        .WithMany("UserLikes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EFLectures.Models.Post", b =>
+                {
+                    b.Navigation("PostLikes");
+                });
+
+            modelBuilder.Entity("EFLectures.Models.User", b =>
                 {
                     b.Navigation("AuthoredPosts");
+
+                    b.Navigation("UserLikes");
                 });
 #pragma warning restore 612, 618
         }
