@@ -37,6 +37,23 @@ class DoublyLinkedList {
     }
 
     /**
+     * Determines if the node's data of this list forms a palindrome.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @returns {boolean} Indicates if this list is a palindrome.
+     */
+    isPalindrome() { }
+
+    /**
+     * Determines if a given node in this list is in the left half of this list.
+     * - Time: O(?).
+     * - Space: O(?).
+     * @param {Node} node
+     * @returns {boolean}
+     */
+    isNodeInLeftHalf(node) { }
+
+    /**
      * Creates a new node and adds it at the front of this list.
      * - Time: O(1) constant.
      * - Space: O(1) constant.
